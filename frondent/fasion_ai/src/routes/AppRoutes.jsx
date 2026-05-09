@@ -1,0 +1,113 @@
+import { AnimatePresence, motion } from "framer-motion";
+import { Route, Routes, useLocation } from "react-router-dom";
+
+import ProtectedRoute from "../components/ProtectedRoute";
+import AuthLayout from "../layouts/AuthLayout";
+import MainLayout from "../layouts/MainLayout";
+import HomePage from "../pages/HomePage";
+import Cart from "../pages/Cart";
+import Login from "../pages/Login";
+import NotFoundPage from "../pages/NotFoundPage";
+import Profile from "../pages/Profile";
+import ProductDetailPage from "../pages/ProductDetailPage";
+import Register from "../pages/Register";
+import ShopPage from "../pages/ShopPage";
+
+function PageTransition({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -14 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function AppRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route element={<AuthLayout />}>
+          <Route
+            path="/login"
+            element={
+              <PageTransition>
+                <Login />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PageTransition>
+                <Register />
+              </PageTransition>
+            }
+          />
+        </Route>
+
+        <Route element={<MainLayout />}>
+          <Route
+            path="/"
+            element={
+              <PageTransition>
+                <HomePage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/shop"
+            element={
+              <PageTransition>
+                <ShopPage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/product/:id"
+            element={
+              <PageTransition>
+                <ProductDetailPage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <PageTransition>
+                <NotFoundPage />
+              </PageTransition>
+            }
+          />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+export default AppRoutes;

@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  --brand-50: #fff1f1;
+  --brand-100: #ffe3e5;
+  --brand-400: #f46f71;
+  --brand-500: #ef5f67;
+  --brand-600: #e74b58;
+  --bg-50: #f2f2f2;
+  --bg-100: #ececec;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: #2c2d31;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(244, 111, 113, 0.14), transparent 34%),
+    radial-gradient(circle at 90% 10%, rgba(255, 143, 152, 0.2), transparent 36%),
+    linear-gradient(145deg, var(--bg-50), var(--bg-100) 45%, #f0f0f0);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(203, 213, 225, 0.42);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(to bottom, rgba(239, 95, 103, 0.9), rgba(244, 111, 113, 0.8));
+}
+
+@layer components {
+  .mesh-bg {
+    background-color: #f2f2f2;
+    background-image:
+      linear-gradient(rgba(239, 95, 103, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(239, 95, 103, 0.04) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .glass-panel {
+    @apply rounded-3xl border border-[#ffd7da] bg-white shadow-sm;
+    box-shadow:
+      0 10px 24px rgba(239, 95, 103, 0.08),
+      0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .text-shine {
+    @apply text-[#e74b58];
+  }
+
+  .section-title {
+    @apply text-center text-3xl font-semibold text-[#e6535c];
+  }
+
+  .section-subtitle {
+    @apply text-center text-sm text-[#8a8f98];
+  }
+
+  .hero-panel {
+    @apply overflow-hidden rounded-[2rem] text-white;
+    background: linear-gradient(180deg, #f07a78 0%, #ff4b5d 100%);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-[#ef5f67] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#e74b58];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-6 py-2.5 text-sm font-medium text-[#e6535c] transition hover:bg-[#ffe6e8];
+  }
+}
