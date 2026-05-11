@@ -56,9 +56,17 @@ function Navbar() {
             Shop
           </NavLink>
           {isAuthenticated && (
-            <NavLink to="/profile" className={navLinkClass}>
-              Profile
-            </NavLink>
+            <>
+              <NavLink to="/profile" className={navLinkClass}>
+                Profile
+              </NavLink>
+              <NavLink to="/addresses" className={navLinkClass}>
+                Addresses
+              </NavLink>
+              <NavLink to="/orders" className={navLinkClass}>
+                Orders
+              </NavLink>
+            </>
           )}
           <button type="button" className="rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:bg-white/15 hover:text-white">
             Deals

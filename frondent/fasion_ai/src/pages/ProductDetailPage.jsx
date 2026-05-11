@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { addToCart } from "../api/cart";
 import { getProductDetail } from "../api/products";
@@ -12,6 +12,28 @@ import { formatCurrency } from "../utils/format";
 const FALLBACK_IMAGE =
   "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80";
 
+const getApiErrorMessage = (error) => {
+  const data = error?.response?.data;
+
+  if (typeof data?.message === "string" && data.message.trim()) return data.message;
+  if (typeof data?.detail === "string" && data.detail.trim()) return data.detail;
+  if (Array.isArray(data?.non_field_errors) && data.non_field_errors.length) {
+    return data.non_field_errors[0];
+  }
+
+  if (data && typeof data === "object") {
+    const firstValue = Object.values(data)[0];
+    if (Array.isArray(firstValue) && firstValue.length && typeof firstValue[0] === "string") {
+      return firstValue[0];
+    }
+    if (typeof firstValue === "string") {
+      return firstValue;
+    }
+  }
+
+  return "";
+};
+
 const parseCSV = (value) =>
   (value || "")
     .split(",")
@@ -20,7 +42,9 @@ const parseCSV = (value) =>
 
 function ProductDetailPage() {
   const { id } = useParams();
-  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -102,8 +126,17 @@ function ProductDetailPage() {
   const image = product.image_url || product.image || FALLBACK_IMAGE;
   const inStock = product.stock > 0;
   const handleAddToCart = async () => {
+    if (authLoading) {
+      setCartMessage("Checking your session. Please wait a moment.");
+      return;
+    }
     if (!isAuthenticated) {
       setCartMessage("Please login to add this item to cart.");
+      navigate("/login", { state: { from: location } });
+      return;
+    }
+    if (!product?.id) {
+      setCartMessage("Product is unavailable right now.");
       return;
     }
     if (!inStock) return;
@@ -113,8 +146,13 @@ function ProductDetailPage() {
     try {
       await addToCart({ product_id: product.id, quantity: 1 });
       setCartMessage("Added to cart.");
-    } catch {
-      setCartMessage("Unable to add this item right now.");
+    } catch (error) {
+      if (error?.response?.status === 401) {
+        setCartMessage("Your session expired. Please login again.");
+        navigate("/login", { state: { from: location } });
+      } else {
+        setCartMessage(getApiErrorMessage(error) || "Unable to add this item right now.");
+      }
     } finally {
       setAddLoading(false);
     }
@@ -145,12 +183,12 @@ function ProductDetailPage() {
             <button
               type="button"
               onClick={handleAddToCart}
-              disabled={!inStock || addLoading}
+              disabled={!inStock || addLoading || authLoading}
               className="rounded-full bg-gradient-to-r from-[#ef6a6c] to-[#f47a78] px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-[0_12px_24px_rgba(231,75,88,0.28)] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {addLoading ? "Adding..." : "Add to Cart"}
+              {addLoading ? "Adding..." : authLoading ? "Checking..." : "Add to Cart"}
             </button>
-            {!isAuthenticated ? (
+            {!isAuthenticated && !authLoading ? (
               <Link to="/login" className="btn-ghost inline-flex rounded-lg px-4 py-2 text-sm">
                 Login
               </Link>

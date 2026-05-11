@@ -6,7 +6,12 @@ import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
 import HomePage from "../pages/HomePage";
 import Cart from "../pages/Cart";
+import Checkout from "../pages/Checkout";
 import Login from "../pages/Login";
+import OrderDetail from "../pages/OrderDetail";
+import Orders from "../pages/Orders";
+import TrackOrder from "../pages/TrackOrder";
+import Addresses from "../pages/Addresses";
 import NotFoundPage from "../pages/NotFoundPage";
 import Profile from "../pages/Profile";
 import ProductDetailPage from "../pages/ProductDetailPage";
@@ -87,11 +92,61 @@ function AppRoutes() {
             }
           />
           <Route
+            path="/addresses"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <Addresses />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
             path="/cart"
             element={
               <PageTransition>
                 <ProtectedRoute>
                   <Cart />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/orders/:id"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <OrderDetail />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/track-order/:tracking_id"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <TrackOrder />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <Orders />
                 </ProtectedRoute>
               </PageTransition>
             }
