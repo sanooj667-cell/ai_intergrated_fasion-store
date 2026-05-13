@@ -153,49 +153,55 @@ function ShopPage() {
         </p>
       </motion.div>
 
-      <SearchBar value={filters.search} onChange={(value) => handleFilterChange("search", value)} onClear={() => handleFilterChange("search", "")} />
-
-      <CategoryFilter
-        categories={categories}
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onReset={handleResetFilters}
-      />
-
-      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-600">
-        <p>
-          Showing {startItem}-{endItem} of {pagination.count} products
-        </p>
-        <p>
-          Page {page} of {totalPages}
-        </p>
-      </div>
-
-      {loading ? <Loader label="Loading products..." /> : null}
-      {!loading && error ? <div className="glass-panel p-6 text-[#e6535c]">{error}</div> : null}
-      {!loading && !error ? <ProductGrid products={products} /> : null}
-
-      {!loading && pagination.count > PAGE_SIZE ? (
-        <div className="glass-panel flex items-center justify-between p-4">
-          <button
-            type="button"
-            onClick={goToPreviousPage}
-            disabled={!pagination.previous}
-            className="btn-ghost rounded-lg px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Previous
-          </button>
-
-          <button
-            type="button"
-            onClick={goToNextPage}
-            disabled={!pagination.next}
-            className="btn-primary rounded-lg px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Next
-          </button>
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <div className="w-full shrink-0 lg:w-72 lg:min-w-[16rem] xl:w-80">
+          <CategoryFilter
+            categories={categories}
+            filters={filters}
+            onFilterChange={handleFilterChange}
+            onReset={handleResetFilters}
+          />
         </div>
-      ) : null}
+
+        <div className="min-w-0 flex-1 space-y-6">
+          <SearchBar value={filters.search} onChange={(value) => handleFilterChange("search", value)} onClear={() => handleFilterChange("search", "")} />
+
+          <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-slate-600">
+            <p>
+              Showing {startItem}-{endItem} of {pagination.count} products
+            </p>
+            <p>
+              Page {page} of {totalPages}
+            </p>
+          </div>
+
+          {loading ? <Loader label="Loading products..." /> : null}
+          {!loading && error ? <div className="glass-panel p-6 text-[#e6535c]">{error}</div> : null}
+          {!loading && !error ? <ProductGrid products={products} /> : null}
+
+          {!loading && pagination.count > PAGE_SIZE ? (
+            <div className="glass-panel flex items-center justify-between p-4">
+              <button
+                type="button"
+                onClick={goToPreviousPage}
+                disabled={!pagination.previous}
+                className="btn-ghost rounded-lg px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Previous
+              </button>
+
+              <button
+                type="button"
+                onClick={goToNextPage}
+                disabled={!pagination.next}
+                className="btn-primary rounded-lg px-4 py-2 text-sm disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </div>
     </section>
   );
 }

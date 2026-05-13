@@ -20,7 +20,7 @@ function ProductGrid({ products, emptyTitle = "No products found", emptyText = "
         hidden: {},
         show: {
           transition: {
-            staggerChildren: 0.06,
+            staggerChildren: 0.04,
           },
         },
       }}

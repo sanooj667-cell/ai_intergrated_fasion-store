@@ -7,8 +7,10 @@ import CartItem from "../components/CartItem";
 import CartSummary from "../components/CartSummary";
 import EmptyCart from "../components/EmptyCart";
 import Loader from "../components/Loader";
+import { useCart } from "../context/CartContext";
 
 function Cart() {
+  const { refreshCart } = useCart();
   const [items, setItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -22,6 +24,7 @@ function Cart() {
       const response = await getCartItems();
       setItems(Array.isArray(response.items) ? response.items : []);
       setSubtotal(Number(response.subtotal) || 0);
+      await refreshCart(response);
     } catch {
       setError("Unable to load your cart right now.");
       setItems([]);
@@ -29,7 +32,7 @@ function Cart() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [refreshCart]);
 
   useEffect(() => {
     fetchCart();

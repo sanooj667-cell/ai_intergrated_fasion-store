@@ -7,6 +7,7 @@ import { getProductDetail } from "../api/products";
 import Loader from "../components/Loader";
 import ProductGrid from "../components/ProductGrid";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 import { formatCurrency } from "../utils/format";
 
 const FALLBACK_IMAGE =
@@ -45,6 +46,7 @@ function ProductDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, loading: authLoading } = useAuth();
+  const { notifyProductAdded } = useCart();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -145,7 +147,8 @@ function ProductDetailPage() {
     setCartMessage("");
     try {
       await addToCart({ product_id: product.id, quantity: 1 });
-      setCartMessage("Added to cart.");
+      notifyProductAdded(product);
+      setCartMessage("");
     } catch (error) {
       if (error?.response?.status === 401) {
         setCartMessage("Your session expired. Please login again.");
