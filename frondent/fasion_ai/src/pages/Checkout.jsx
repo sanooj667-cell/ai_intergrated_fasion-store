@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { getCartItems } from "../api/cart";
-import { createOrder } from "../api/orders";
+import { createRazorpayOrder, verifyPayment } from "../api/payments";
 import { getAddresses } from "../api/addresses";
 import CheckoutForm from "../components/CheckoutForm";
 import EmptyCart from "../components/EmptyCart";
@@ -65,47 +65,97 @@ function Checkout() {
 
   const selectedAddress = addresses.find((a) => String(a.id) === String(selectedAddressId));
 
+  const processError = (err, defaultMsg) => {
+    const data = err?.response?.data;
+    let message = defaultMsg;
+    if (data && typeof data === "object") {
+      if (typeof data.detail === "string") message = data.detail;
+      else if (data.detail && Array.isArray(data.detail)) {
+        message = data.detail.map((d) => d?.msg || String(d)).join(" ");
+      } else {
+        const keys = Object.keys(data);
+        if (keys.length > 0) {
+          const firstKey = keys[0];
+          const val = data[firstKey];
+          if (Array.isArray(val) && val[0]) message = String(val[0]);
+          else if (typeof val === "string" && val.trim()) message = val;
+          else message = JSON.stringify(data);
+        }
+      }
+    } else if (typeof data === "string" && data.trim()) {
+      message = data;
+    } else if (err?.message) {
+      message = err.message;
+    }
+    setCheckoutError(message);
+  };
+
   const handlePlaceOrder = async (payload) => {
     setCheckoutError("");
     setSubmitting(true);
     try {
-      const order = await createOrder(payload);
-      setPlacedOrder(order);
-      setItems([]);
-      setSubtotal(0);
-      if (order?.tracking_id) {
-        navigate(`/track-order/${order.tracking_id}`, { replace: true });
-      }
-    } catch (err) {
-      const data = err?.response?.data;
-      let message = "Checkout failed. Please try again.";
+      console.log("Initiating payment...");
+      const orderData = await createRazorpayOrder();
 
-      // DRF often returns:
-      // - { detail: "..." }
-      // - { field: ["error message"] }
-      // - or sometimes HTML/text for 500s
-      if (data && typeof data === "object") {
-        if (typeof data.detail === "string") message = data.detail;
-        else if (data.detail && Array.isArray(data.detail)) {
-          message = data.detail.map((d) => d?.msg || String(d)).join(" ");
-        } else {
-          const keys = Object.keys(data);
-          if (keys.length > 0) {
-            const firstKey = keys[0];
-            const val = data[firstKey];
-            if (Array.isArray(val) && val[0]) message = String(val[0]);
-            else if (typeof val === "string" && val.trim()) message = val;
-            else message = JSON.stringify(data);
+      const options = {
+        key: orderData.key_id,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "John Clothes",
+        description: "Order Payment",
+        order_id: orderData.id,
+        handler: async function (response) {
+          try {
+            console.log("Payment successful, verifying signature...");
+            const verificationPayload = {
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_signature: response.razorpay_signature,
+              ...payload,
+            };
+
+            const verificationRes = await verifyPayment(verificationPayload);
+            const order = verificationRes.order;
+
+            setPlacedOrder(order);
+            setItems([]);
+            setSubtotal(0);
+            if (order?.tracking_id) {
+              navigate(`/track-order/${order.tracking_id}`, { replace: true });
+            }
+          } catch (err) {
+            console.error("Verification failed:", err);
+            processError(err, "Payment verification failed. Please contact support.");
+          } finally {
+            setSubmitting(false);
           }
-        }
-      } else if (typeof data === "string" && data.trim()) {
-        message = data;
-      } else if (err?.message) {
-        message = err.message;
-      }
+        },
+        prefill: {
+          name: payload.full_name,
+          email: payload.email,
+          contact: payload.phone,
+        },
+        theme: {
+          color: "#e6535c",
+        },
+        modal: {
+          ondismiss: function () {
+            setSubmitting(false);
+            setCheckoutError("Payment was cancelled.");
+          },
+        },
+      };
 
-      setCheckoutError(message);
-    } finally {
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", function (response) {
+        console.error("Payment failed:", response.error);
+        setSubmitting(false);
+        setCheckoutError(response.error.description || "Payment failed.");
+      });
+      rzp.open();
+    } catch (err) {
+      console.error("Failed to initiate order:", err);
+      processError(err, "Checkout failed. Please try again.");
       setSubmitting(false);
     }
   };

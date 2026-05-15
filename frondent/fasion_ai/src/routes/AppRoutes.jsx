@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Route, Routes, useLocation } from "react-router-dom";
 
+import AdminRoute from "../components/AdminRoute";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AuthLayout from "../layouts/AuthLayout";
 import MainLayout from "../layouts/MainLayout";
@@ -17,6 +18,7 @@ import Profile from "../pages/Profile";
 import ProductDetailPage from "../pages/ProductDetailPage";
 import Register from "../pages/Register";
 import ShopPage from "../pages/ShopPage";
+import AdminDashboard from "../pages/AdminDashboard";
 
 function PageTransition({ children }) {
   return (
@@ -148,6 +150,16 @@ function AppRoutes() {
                 <ProtectedRoute>
                   <Orders />
                 </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <PageTransition>
+                <AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
               </PageTransition>
             }
           />

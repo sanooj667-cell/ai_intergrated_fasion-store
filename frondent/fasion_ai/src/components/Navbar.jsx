@@ -66,6 +66,11 @@ function Navbar({ inHero = false, theme = "girls" }) {
               <NavLink to="/orders" className={navLinkClass}>
                 Orders
               </NavLink>
+              {user?.is_staff ? (
+                <NavLink to="/admin" className={navLinkClass}>
+                  Admin
+                </NavLink>
+              ) : null}
             </>
           )}
           <button
