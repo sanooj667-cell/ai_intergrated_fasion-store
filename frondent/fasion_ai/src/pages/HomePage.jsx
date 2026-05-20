@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+
 import Navbar from "../components/Navbar";
+import HeroDripDivider from "../components/HeroDripDivider";
 import ProductSection from "../components/ProductSection";
 
 const heroSlides = [
@@ -11,6 +13,10 @@ const heroSlides = [
     subtitle: "Made from soft, durable fabric with trend-first cuts for modern street and daily wear.",
     offerText: "Exclusive Offer 20% Off This Week",
     gradient: "linear-gradient(180deg, #f07a78 0%, #ff4b5d 100%)",
+    gradientStops: [
+      { offset: "0%", color: "#f07a78" },
+      { offset: "100%", color: "#ff4b5d" },
+    ],
     btnColor: "bg-[#ef5f67] hover:bg-[#e74b58] shadow-red-500/30",
     textBtnColor: "text-[#e6535c]",
     img: "/hero-model2.png",
@@ -23,9 +29,13 @@ const heroSlides = [
     subtitle: "Elevate your style with our exclusive collection of sophisticated menswear.",
     offerText: "New Arrivals for Men",
     gradient: "linear-gradient(180deg, #434343 0%, #000000 100%)",
+    gradientStops: [
+      { offset: "0%", color: "#434343" },
+      { offset: "100%", color: "#000000" },
+    ],
     btnColor: "bg-[#555] hover:bg-[#333] shadow-black/30",
     textBtnColor: "text-[#333]",
-    img: "/hero-model2.png",
+    img: "/MEN_HERO.PNG",
     avatarBorder: "border-[#444]",
     theme: "mens"
   },
@@ -35,9 +45,13 @@ const heroSlides = [
     subtitle: "Comfortable and vibrant clothing for the little trendsetters.",
     offerText: "Fun & Fresh Styles",
     gradient: "linear-gradient(180deg, #f2d47a 0%, #d4ac0d 100%)",
+    gradientStops: [
+      { offset: "0%", color: "#f2d47a" },
+      { offset: "100%", color: "#d4ac0d" },
+    ],
     btnColor: "bg-[#d4ac0d] hover:bg-[#b9770e] shadow-yellow-600/30",
     textBtnColor: "text-[#b9770e]",
-    img: "/hero-model2.png",
+    img: "https://images.unsplash.com/photo-1622290319146-7b63df48a635?auto=format&fit=crop&w=800&q=80",
     avatarBorder: "border-[#d4ac0d]",
     theme: "kids"
   }
@@ -141,9 +155,9 @@ function HomePage() {
     <section className="space-y-8">
       <div className="relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] w-screen">
         <motion.div
-          className="hero-panel relative flex min-h-[100dvh] flex-col rounded-none transition-all duration-700 ease-in-out"
-          style={{ background: slide.gradient }}
+          className="relative flex min-h-[100dvh] flex-col overflow-visible rounded-none text-white transition-all duration-700 ease-in-out"
         >
+          <div className="relative flex min-h-0 flex-1 flex-col" style={{ background: slide.gradient }}>
           <Navbar inHero theme={slide.theme} />
 
           <div className="relative flex min-h-0 flex-1 overflow-hidden">
@@ -166,11 +180,11 @@ function HomePage() {
                     {slide.subtitle}
                   </p>
 
-                  <div className="flex w-full max-w-md flex-wrap items-center gap-3 rounded-full bg-white/25 p-2">
-                    <button type="button" className={`rounded-full bg-white/90 px-6 py-2.5 text-sm font-medium transition hover:bg-white ${slide.textBtnColor}`}>
+                  <div className="flex w-full max-w-md flex-wrap items-center gap-3.5">
+                    <button type="button" className={`rounded-full bg-white/95 px-7 py-3.5 text-sm font-semibold transition hover:bg-white ${slide.textBtnColor} shadow-md`}>
                       Select Category
                     </button>
-                    <button type="button" className={`rounded-full px-8 py-2.5 text-sm font-semibold text-white shadow-lg transition ${slide.btnColor}`}>
+                    <button type="button" className={`rounded-full px-9 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-105 ${slide.btnColor}`}>
                       Shop Now
                     </button>
                   </div>
@@ -231,6 +245,9 @@ function HomePage() {
               ))}
             </div>
           </div>
+          </div>
+
+
         </motion.div>
       </div>
 

@@ -178,12 +178,12 @@ function Checkout() {
       {loading ? <Loader label="Preparing checkout…" /> : null}
 
       {!loading && error ? (
-        <div className="rounded-3xl border border-white/20 bg-white/10 p-8 text-center text-white backdrop-blur-lg">
+        <div className="glass-panel p-8 text-center text-slate-850 backdrop-blur-lg">
           <p className="text-lg font-semibold">{error}</p>
           <button
             type="button"
             onClick={loadCart}
-            className="mt-4 rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1]"
+            className="mt-4 rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
           >
             Retry
           </button>
@@ -197,17 +197,17 @@ function Checkout() {
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, y: -8 }}
-            className="mx-auto max-w-xl rounded-3xl border border-white/25 bg-white/12 p-8 text-center text-white backdrop-blur-xl sm:p-10"
+            className="glass-panel mx-auto max-w-xl bg-white/90 p-8 text-center text-slate-800 shadow-[0_22px_45px_rgba(239,95,103,0.12)] backdrop-blur-xl sm:p-10"
           >
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white/20 text-2xl">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-emerald-250 bg-emerald-50 text-2xl text-emerald-600 font-bold shadow-sm">
               ✓
             </div>
-            <p className="mt-4 text-xs uppercase tracking-[0.28em] text-white/75">Order placed</p>
-            <h2 className="mt-2 text-2xl font-semibold sm:text-3xl">Thank you for your purchase</h2>
-            <p className="mt-3 text-sm text-white/80">
-              Order <span className="font-semibold">#{placedOrder.id}</span> total{" "}
+            <p className="mt-4 text-xs uppercase tracking-[0.28em] text-[#e6535c]">Order placed</p>
+            <h2 className="mt-2 text-2xl font-semibold text-slate-850 sm:text-3xl">Thank you for your purchase</h2>
+            <p className="mt-3 text-sm text-slate-600">
+              Order <span className="font-semibold text-slate-800">#{placedOrder.id}</span> total{" "}
               {formatCurrency(placedOrder.total_price)} — confirmation sent to{" "}
-              <span className="font-medium">{placedOrder.email}</span>.
+              <span className="font-medium text-slate-850">{placedOrder.email}</span>.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               {placedOrder.tracking_id ? (
@@ -220,19 +220,19 @@ function Checkout() {
               ) : null}
               <Link
                 to={`/orders/${placedOrder.id}`}
-                className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1]"
+                className="rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
               >
                 View order
               </Link>
               <Link
                 to="/orders"
-                className="rounded-full border border-white/35 bg-white/10 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-white/20"
+                className="rounded-full border border-slate-200 bg-white px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-slate-600 transition hover:bg-slate-50 shadow-sm"
               >
                 All orders
               </Link>
               <Link
                 to="/shop"
-                className="rounded-full border border-white/35 bg-white/10 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-white/20"
+                className="rounded-full border border-slate-200 bg-white px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-slate-600 transition hover:bg-slate-50 shadow-sm"
               >
                 Continue shopping
               </Link>
@@ -247,19 +247,19 @@ function Checkout() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <div className="space-y-4">
             {checkoutError ? (
-              <div className="rounded-3xl border border-red-300/40 bg-red-500/15 px-4 py-3 text-sm text-white backdrop-blur-lg">
+              <div className="rounded-2xl border border-red-300/40 bg-red-500/15 px-4 py-3 text-sm text-white backdrop-blur-lg">
                 {checkoutError}
               </div>
             ) : null}
-            <div className="rounded-3xl border border-white/20 bg-slate-950/25 p-5 text-white shadow-[0_18px_34px_rgba(15,23,42,0.12)] backdrop-blur-xl">
+            <div className="glass-panel bg-white/90 p-5 text-slate-800 shadow-[0_22px_45px_rgba(239,95,103,0.12)] backdrop-blur-xl">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.24em] text-white/70">Saved address</p>
-                  <p className="mt-1 text-sm text-white/75">Select a saved address or manage your list.</p>
+                  <p className="text-xs uppercase tracking-[0.24em] text-[#e6535c]">Saved address</p>
+                  <p className="mt-1 text-sm text-slate-500">Select a saved address or manage your list.</p>
                 </div>
                 <Link
                   to="/addresses"
-                  className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/20"
+                  className="rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
                 >
                   Manage
                 </Link>
@@ -268,7 +268,7 @@ function Checkout() {
                 <select
                   value={selectedAddressId}
                   onChange={(e) => setSelectedAddressId(e.target.value)}
-                  className="w-full rounded-2xl border border-white/25 bg-white/95 px-4 py-3 text-sm font-semibold text-[#2f3440] outline-none shadow-sm transition focus:border-white/45"
+                  className="w-full rounded-2xl border border-[#ffd4d8] bg-white px-4 py-3 text-sm font-semibold text-[#2f3440] outline-none transition focus:border-[#ef5f67] focus:ring-2 focus:ring-[#ffd7da] shadow-sm"
                   disabled={submitting || !addresses.length}
                 >
                   {!addresses.length ? <option value="">No saved addresses</option> : null}

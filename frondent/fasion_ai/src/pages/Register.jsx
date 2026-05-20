@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
+import { getApiErrorMessage } from "../utils/apiError";
 
 function Register() {
   const [form, setForm] = useState({ email: "", password: "", is_customer: true });
@@ -29,15 +30,7 @@ function Register() {
       await register(form);
       navigate("/profile", { replace: true });
     } catch (err) {
-      const payload = err?.response?.data;
-      const detail =
-        payload?.detail ||
-        Object.entries(payload || {})
-          .map(([, value]) => (Array.isArray(value) ? value[0] : value))
-          .filter(Boolean)
-          .join(" ") ||
-        "Unable to create account right now. Please try again.";
-      setError(String(detail));
+      setError(getApiErrorMessage(err, "Unable to create account right now. Please try again."));
     } finally {
       setSubmitting(false);
     }

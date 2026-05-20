@@ -9,11 +9,11 @@ function OrderSummary({ items = [], subtotal = 0, title = "Order summary" }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
-      className="space-y-4 rounded-3xl border border-white/20 bg-slate-950/25 p-6 shadow-[0_18px_34px_rgba(15,23,42,0.12)] backdrop-blur-xl"
+      className="glass-panel space-y-4 bg-white/90 p-6 shadow-[0_22px_45px_rgba(239,95,103,0.12)] backdrop-blur-xl"
     >
       <div>
-        <p className="text-xs uppercase tracking-[0.24em] text-white/70">{title}</p>
-        <p className="mt-1 text-sm text-white/75">Review items and totals before placing your order.</p>
+        <p className="text-xs uppercase tracking-[0.24em] text-[#e6535c]">{title}</p>
+        <p className="mt-1 text-sm text-slate-500">Review items and totals before placing your order.</p>
       </div>
 
       <div className="space-y-3">
@@ -30,10 +30,10 @@ function OrderSummary({ items = [], subtotal = 0, title = "Order summary" }) {
         ))}
       </div>
 
-      <div className="h-px bg-white/20" />
-      <div className="flex items-center justify-between text-white">
+      <div className="h-px bg-[#ffd8dc]" />
+      <div className="flex items-center justify-between text-slate-800">
         <span className="text-sm font-medium">Total</span>
-        <span className="text-xl font-semibold">{formatCurrency(subtotal)}</span>
+        <span className="text-xl font-semibold text-[#e6535c]">{formatCurrency(subtotal)}</span>
       </div>
     </motion.aside>
   );

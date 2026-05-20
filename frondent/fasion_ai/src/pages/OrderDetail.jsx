@@ -83,11 +83,11 @@ function OrderDetail() {
       {loading ? <Loader label="Loading order…" /> : null}
 
       {!loading && error ? (
-        <div className="rounded-3xl border border-white/20 bg-white/10 p-8 text-center text-white backdrop-blur-lg">
+        <div className="glass-panel p-8 text-center text-slate-850 backdrop-blur-lg">
           <p className="text-lg font-semibold">{error}</p>
           <Link
             to="/orders"
-            className="mt-6 inline-flex rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1]"
+            className="mt-6 inline-flex rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
           >
             View all orders
           </Link>
@@ -107,7 +107,7 @@ function OrderDetail() {
           />
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-white/70">Items</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-[#e6535c]">Items</h2>
               {(order.items || []).map((line) => (
                 <OrderItemCard
                   key={line.id}
@@ -123,21 +123,21 @@ function OrderDetail() {
             <motion.aside
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="h-fit space-y-4 rounded-3xl border border-white/20 bg-white/10 p-6 text-white backdrop-blur-lg"
+              className="h-fit space-y-4 glass-panel bg-white/90 p-6 text-slate-850 backdrop-blur-lg"
             >
-              <p className="text-xs uppercase tracking-[0.24em] text-white/70">Summary</p>
-              <div className="flex items-center justify-between text-lg font-semibold">
+              <p className="text-xs uppercase tracking-[0.24em] text-[#e6535c]">Summary</p>
+              <div className="flex items-center justify-between text-lg font-semibold text-slate-800">
                 <span>Total</span>
-                <span>{formatCurrency(order.total_price)}</span>
+                <span className="text-[#e6535c]">{formatCurrency(order.total_price)}</span>
               </div>
-              <p className="inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium capitalize text-white/90">
+              <p className="inline-flex rounded-full border border-[#ffd8dc] bg-[#fff8f8] px-3 py-1 text-xs font-medium capitalize text-slate-700">
                 Payment: {order.payment_status}
               </p>
 
-              <div className="h-px bg-white/20" />
-              <p className="text-xs uppercase tracking-[0.2em] text-white/65">Ship to</p>
-              <div className="space-y-1 text-sm text-white/85">
-                <p className="font-semibold text-white">{order.full_name}</p>
+              <div className="h-px bg-[#ffd8dc]" />
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Ship to</p>
+              <div className="space-y-1 text-sm text-slate-600">
+                <p className="font-semibold text-slate-800">{order.full_name}</p>
                 <p>{order.email}</p>
                 <p>{order.phone}</p>
                 <p>{order.address}</p>

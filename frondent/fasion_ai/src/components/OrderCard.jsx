@@ -20,18 +20,18 @@ function OrderCard({ order }) {
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-3xl border border-white/20 bg-white/10 p-5 backdrop-blur-lg transition hover:border-white/35 hover:bg-white/[0.14]"
+      className="glass-panel p-5 bg-white/90 backdrop-blur-xl transition hover:border-[#ffd0d4] hover:bg-[#fffcfc]"
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-white/65">Order</p>
-          <h3 className="mt-1 text-lg font-semibold text-white">#{order.id}</h3>
-          <p className="mt-1 text-sm text-white/70">{dateLabel}</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-slate-500">Order</p>
+          <h3 className="mt-1 text-lg font-semibold text-slate-800">#{order.id}</h3>
+          <p className="mt-1 text-sm text-slate-500">{dateLabel}</p>
         </div>
         <div className="text-right">
-          <p className="text-xs uppercase tracking-[0.18em] text-white/65">Total</p>
-          <p className="mt-1 text-xl font-semibold text-white">{formatCurrency(order.total_price)}</p>
-          <p className="mt-2 inline-flex rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium capitalize text-white/90">
+          <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Total</p>
+          <p className="mt-1 text-xl font-semibold text-[#e6535c]">{formatCurrency(order.total_price)}</p>
+          <p className="mt-2 inline-flex rounded-full border border-[#ffd8dc] bg-[#fff8f8] px-3 py-1 text-xs font-medium capitalize text-slate-700">
             Pay: {order.payment_status || "pending"}
           </p>
           <div className="mt-2 flex justify-end">
@@ -39,8 +39,8 @@ function OrderCard({ order }) {
           </div>
         </div>
       </div>
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-white/15 pt-4">
-        <p className="text-sm text-white/75">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#ffd8dc] pt-4">
+        <p className="text-sm text-slate-600">
           {order.item_count != null ? `${order.item_count} items` : "Items"}
         </p>
         <div className="flex flex-wrap gap-2">
@@ -54,7 +54,7 @@ function OrderCard({ order }) {
           ) : null}
           <Link
             to={`/orders/${order.id}`}
-            className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/20"
+            className="rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
           >
             Details
           </Link>

@@ -5,11 +5,11 @@ function DeliveryProgress({ percent = 0, className = "" }) {
 
   return (
     <div className={`space-y-2 ${className}`}>
-      <div className="flex items-center justify-between text-xs font-medium uppercase tracking-[0.18em] text-white/70">
+      <div className="flex items-center justify-between text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
         <span>Delivery progress</span>
-        <span className="text-white">{safe}%</span>
+        <span className="text-slate-800 font-semibold">{safe}%</span>
       </div>
-      <div className="h-2.5 overflow-hidden rounded-full border border-white/20 bg-white/10 backdrop-blur-sm">
+      <div className="h-2.5 overflow-hidden rounded-full border border-[#ffd8dc]/50 bg-[#ffd8dc]/20">
         <motion.div
           className="h-full rounded-full bg-gradient-to-r from-[#ef6a6c] to-[#f47a78] shadow-[0_0_16px_rgba(239,106,108,0.45)]"
           initial={{ width: 0 }}

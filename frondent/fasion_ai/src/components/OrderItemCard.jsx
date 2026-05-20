@@ -14,15 +14,15 @@ function OrderItemCard({ title, imageUrl, quantity, unitPrice, lineTotal, layout
       layout
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="rounded-3xl border border-white/20 bg-slate-950/25 p-4 shadow-[0_14px_30px_rgba(15,23,42,0.10)] backdrop-blur-xl sm:p-5"
+      className="rounded-3xl border border-[#ffd8dc] bg-white/90 p-4 shadow-sm backdrop-blur-xl sm:p-5"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <img src={image} alt={title} className="h-24 w-24 rounded-2xl object-cover sm:h-28 sm:w-28" />
         <div className="flex-1">
-          <h3 className="text-base font-semibold text-white sm:text-lg">{title}</h3>
-          <p className="mt-1 text-sm text-white/70">Unit: {formatCurrency(unitPrice)}</p>
-          <p className="mt-1 text-sm text-white/70">Qty: {quantity}</p>
-          <p className="mt-1 text-sm font-medium text-white">Line total: {formatCurrency(lineTotal)}</p>
+          <h3 className="text-base font-semibold text-slate-800 sm:text-lg">{title}</h3>
+          <p className="mt-1 text-sm text-slate-500">Unit: {formatCurrency(unitPrice)}</p>
+          <p className="mt-1 text-sm text-slate-500">Qty: {quantity}</p>
+          <p className="mt-1 text-sm font-medium text-slate-700">Line total: <span className="font-semibold text-[#e6535c]">{formatCurrency(lineTotal)}</span></p>
         </div>
       </div>
     </motion.article>

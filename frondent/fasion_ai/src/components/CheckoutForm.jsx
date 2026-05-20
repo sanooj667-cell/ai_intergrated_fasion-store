@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const fieldClass =
-  "mt-1.5 w-full rounded-2xl border border-white/25 bg-slate-950/35 px-4 py-2.5 text-sm text-white placeholder:text-white/50 outline-none shadow-[0_10px_24px_rgba(15,23,42,0.18)] transition focus:border-white/45 focus:bg-slate-950/45";
-const labelClass = "text-xs font-semibold uppercase tracking-[0.18em] text-white/70";
+  "mt-1.5 w-full rounded-2xl border border-[#ffd4d8] bg-white px-4 py-3 text-sm text-[#2f3440] placeholder:text-slate-400 outline-none transition focus:border-[#ef5f67] focus:ring-2 focus:ring-[#ffd7da]";
+const labelClass = "text-xs font-semibold uppercase tracking-[0.18em] text-[#4e5561]";
 
 function CheckoutForm({ onSubmit, submitting = false, defaultEmail = "", defaultValues = null }) {
   const [fullName, setFullName] = useState(defaultValues?.full_name || "");
@@ -48,12 +48,12 @@ function CheckoutForm({ onSubmit, submitting = false, defaultEmail = "", default
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.28 }}
       onSubmit={handleSubmit}
-      className="space-y-5 rounded-3xl border border-white/20 bg-slate-950/25 p-6 shadow-[0_18px_34px_rgba(15,23,42,0.12)] backdrop-blur-xl sm:p-8"
+      className="glass-panel space-y-5 bg-white/90 p-6 shadow-[0_22px_45px_rgba(239,95,103,0.12)] backdrop-blur-xl sm:p-8"
     >
       <div>
-        <p className="text-xs uppercase tracking-[0.24em] text-white/70">Shipping</p>
-        <h2 className="mt-2 text-xl font-semibold text-white sm:text-2xl">Delivery details</h2>
-        <p className="mt-1 text-sm text-white/75">Where should we send your curated fashion picks?</p>
+        <p className="text-xs uppercase tracking-[0.24em] text-[#e6535c]">Shipping</p>
+        <h2 className="mt-2 text-xl font-semibold text-slate-800 sm:text-2xl">Delivery details</h2>
+        <p className="mt-1 text-sm text-slate-500">Where should we send your curated fashion picks?</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

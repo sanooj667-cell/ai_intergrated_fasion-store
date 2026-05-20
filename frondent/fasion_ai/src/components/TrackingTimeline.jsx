@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 function StepDot({ state }) {
   if (state === "completed") {
     return (
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-emerald-300/50 bg-emerald-500/25 text-sm font-bold text-emerald-100 shadow-[0_0_12px_rgba(52,211,153,0.35)]">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-emerald-300/70 bg-emerald-50 text-sm font-bold text-emerald-600 shadow-sm">
         ✓
       </span>
     );
@@ -11,8 +11,8 @@ function StepDot({ state }) {
   if (state === "current") {
     return (
       <span className="relative flex h-9 w-9 shrink-0 items-center justify-center">
-        <span className="absolute inset-0 animate-pulse rounded-full bg-[#f47a78]/35" />
-        <span className="relative flex h-9 w-9 items-center justify-center rounded-full border-2 border-white/80 bg-gradient-to-br from-[#ef6a6c] to-[#f47a78] text-xs font-bold text-white shadow-[0_8px_20px_rgba(231,75,88,0.45)]">
+        <span className="absolute inset-0 animate-pulse rounded-full bg-[#f47a78]/25" />
+        <span className="relative flex h-9 w-9 items-center justify-center rounded-full border-2 border-white bg-gradient-to-br from-[#ef6a6c] to-[#f47a78] text-xs font-bold text-white shadow-[0_4px_12px_rgba(231,75,88,0.3)]">
           ●
         </span>
       </span>
@@ -20,13 +20,13 @@ function StepDot({ state }) {
   }
   if (state === "skipped") {
     return (
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/5 text-xs text-white/40">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-xs text-slate-400">
         —
       </span>
     );
   }
   return (
-    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 bg-white/10 text-xs text-white/50">
+    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-white text-xs text-slate-400">
       ○
     </span>
   );
@@ -37,7 +37,7 @@ function TrackingTimeline({ steps = [], className = "" }) {
 
   return (
     <div className={`space-y-1 ${className}`}>
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">Timeline</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e6535c]">Timeline</p>
       <ul className="relative mt-3 space-y-0">
         {steps.map((step, index) => (
           <motion.li
@@ -50,16 +50,16 @@ function TrackingTimeline({ steps = [], className = "" }) {
             {index < steps.length - 1 ? (
               <span
                 className={`absolute left-[17px] top-9 h-[calc(100%-0.5rem)] w-px ${
-                  step.state === "completed" ? "bg-emerald-400/40" : "bg-white/15"
+                  step.state === "completed" ? "bg-emerald-400" : "bg-slate-200"
                 }`}
                 aria-hidden
               />
             ) : null}
             <StepDot state={step.state} />
             <div className="min-w-0 flex-1 pt-1">
-              <p className="text-sm font-semibold text-white">{step.label}</p>
+              <p className="text-sm font-semibold text-slate-800">{step.label}</p>
               {step.at ? (
-                <p className="mt-0.5 text-xs text-white/60">
+                <p className="mt-0.5 text-xs text-slate-500">
                   {new Date(step.at).toLocaleString(undefined, {
                     month: "short",
                     day: "numeric",

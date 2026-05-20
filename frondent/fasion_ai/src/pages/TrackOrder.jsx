@@ -60,19 +60,19 @@ function TrackOrder() {
       {loading ? <Loader label="Fetching tracking…" /> : null}
 
       {!loading && error ? (
-        <div className="rounded-3xl border border-white/20 bg-white/10 p-8 text-center text-white backdrop-blur-lg">
+        <div className="glass-panel p-8 text-center text-slate-850 backdrop-blur-lg">
           <p className="text-lg font-semibold">{error}</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <button
               type="button"
               onClick={fetchTracking}
-              className="rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1]"
+              className="rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
             >
               Retry
             </button>
             <Link
               to="/orders"
-              className="rounded-full border border-white/30 bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/20"
+              className="rounded-full border border-slate-200 bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600 transition hover:bg-slate-50 shadow-sm"
             >
               My orders
             </Link>

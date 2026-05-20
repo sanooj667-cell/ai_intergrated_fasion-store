@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+
+import api from "../api/axios";
 
 import { useAuth } from "../context/AuthContext";
 import Loader from "../components/Loader";
@@ -7,6 +9,31 @@ import Loader from "../components/Loader";
 function Profile() {
   const { user, refreshProfile, logout } = useAuth();
   const [loading, setLoading] = useState(!user);
+  const fileInputRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      const formData = new FormData();
+      formData.append("profile_picture", file);
+
+      await api.patch("/auth/profile/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      await refreshProfile();
+    } catch (err) {
+      console.error("Failed to upload profile picture", err);
+      alert("Failed to upload profile picture.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -43,10 +70,44 @@ function Profile() {
         className="glass-panel overflow-hidden rounded-[2rem] bg-white/90 p-6 shadow-[0_22px_45px_rgba(239,95,103,0.12)] backdrop-blur-xl sm:p-8"
       >
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e6535c]">My account</p>
-            <h1 className="mt-2 text-3xl font-bold text-[#2f3440] sm:text-4xl">Profile</h1>
-            <p className="mt-2 text-sm text-[#7a808a]">Authenticated user details from your DRF backend.</p>
+          <div className="flex items-center gap-6">
+            <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border-2 border-white shadow-md sm:h-24 sm:w-24">
+              {user?.profile_picture ? (
+                <img
+                  src={user.profile_picture}
+                  alt="Profile"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#ffb8c0] to-[#ef5f67] text-3xl font-bold uppercase text-white">
+                  {user?.email?.[0] || "?"}
+                </div>
+              )}
+              {uploading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => !uploading && fileInputRef.current?.click()}
+                className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/40 text-[10px] font-medium text-white opacity-0 transition-opacity hover:opacity-100 sm:text-xs"
+              >
+                Change
+              </button>
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                accept="image/*"
+                className="hidden"
+              />
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e6535c]">My account</p>
+              <h1 className="mt-2 text-3xl font-bold text-[#2f3440] sm:text-4xl">Profile</h1>
+              <p className="mt-2 text-sm text-[#7a808a]">Authenticated user details from your DRF backend.</p>
+            </div>
           </div>
           <button
             type="button"

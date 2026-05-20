@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
+import { getApiErrorMessage } from "../utils/apiError";
 
 function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -29,11 +30,7 @@ function Login() {
       await login(form);
       navigate(from, { replace: true });
     } catch (err) {
-      const detail =
-        err?.response?.data?.detail ||
-        Object.values(err?.response?.data || {})?.[0]?.[0] ||
-        "Unable to login right now. Please try again.";
-      setError(String(detail));
+      setError(getApiErrorMessage(err, "Unable to login right now. Please try again."));
     } finally {
       setSubmitting(false);
     }

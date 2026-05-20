@@ -7,8 +7,8 @@ import Loader from "../components/Loader";
 import { useAuth } from "../context/AuthContext";
 
 const fieldClass =
-  "mt-1.5 w-full rounded-2xl border border-white/25 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/45 outline-none transition focus:border-white/45 focus:bg-white/15";
-const labelClass = "text-xs font-semibold uppercase tracking-[0.18em] text-white/70";
+  "mt-1.5 w-full rounded-2xl border border-[#ffd4d8] bg-white px-4 py-3 text-sm text-[#2f3440] placeholder:text-slate-400 outline-none transition focus:border-[#ef5f67] focus:ring-2 focus:ring-[#ffd7da]";
+const labelClass = "text-xs font-semibold uppercase tracking-[0.18em] text-[#4e5561]";
 
 const emptyForm = {
   full_name: "",
@@ -141,12 +141,12 @@ function Addresses() {
       {loading ? <Loader label="Loading addresses…" /> : null}
 
       {!loading && error ? (
-        <div className="rounded-3xl border border-white/20 bg-white/10 p-8 text-center text-white backdrop-blur-lg">
+        <div className="glass-panel p-8 text-center text-slate-850 backdrop-blur-lg">
           <p className="text-lg font-semibold">{error}</p>
           <button
             type="button"
             onClick={refresh}
-            className="mt-4 rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1]"
+            className="mt-4 rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
           >
             Retry
           </button>
@@ -157,11 +157,11 @@ function Addresses() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_420px]">
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">Saved</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#e6535c]">Saved</p>
               <button
                 type="button"
                 onClick={startCreate}
-                className="rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1]"
+                className="rounded-full border border-[#ffd0d4] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1] shadow-sm"
               >
                 New address
               </button>
@@ -175,22 +175,22 @@ function Addresses() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="rounded-3xl border border-white/20 bg-white/10 p-5 text-white backdrop-blur-lg"
+                  className="rounded-3xl border border-[#ffd8dc] bg-white/90 p-5 text-slate-800 shadow-sm backdrop-blur-xl"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="text-base font-semibold">{addr.full_name}</p>
                         {addr.is_default ? (
-                          <span className="rounded-full border border-emerald-300/50 bg-emerald-500/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-100">
+                          <span className="rounded-full border border-emerald-300/50 bg-emerald-550/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-700">
                             Default
                           </span>
                         ) : null}
                       </div>
-                      <p className="mt-1 text-sm text-white/75">{addr.email}</p>
-                      <p className="mt-1 text-sm text-white/75">{addr.phone}</p>
-                      <p className="mt-2 text-sm text-white/85">{addr.address}</p>
-                      <p className="mt-1 text-sm text-white/75">
+                      <p className="mt-1 text-sm text-slate-500">{addr.email}</p>
+                      <p className="mt-1 text-sm text-slate-500">{addr.phone}</p>
+                      <p className="mt-2 text-sm text-slate-700">{addr.address}</p>
+                      <p className="mt-1 text-sm text-slate-500">
                         {addr.city}, {addr.state} {addr.postal_code}
                       </p>
                     </div>
@@ -198,7 +198,7 @@ function Addresses() {
                       <button
                         type="button"
                         onClick={() => startEdit(addr)}
-                        className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/20"
+                        className="rounded-full border border-[#ffd0d4] bg-[#fff1f1] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#ffe7ea]"
                       >
                         Edit
                       </button>
@@ -206,7 +206,7 @@ function Addresses() {
                         type="button"
                         disabled={busyId === addr.id}
                         onClick={() => handleDelete(addr.id)}
-                        className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+                        className="rounded-full border border-red-200 bg-red-50 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
                       >
                         {busyId === addr.id ? "Deleting…" : "Delete"}
                       </button>
@@ -217,7 +217,7 @@ function Addresses() {
             </AnimatePresence>
 
             {!addresses.length ? (
-              <div className="rounded-3xl border border-white/20 bg-white/10 p-8 text-center text-white/80 backdrop-blur-lg">
+              <div className="glass-panel p-8 text-center text-slate-500">
                 <p className="text-sm">No saved addresses yet.</p>
               </div>
             ) : null}
@@ -228,18 +228,18 @@ function Addresses() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.28 }}
             onSubmit={handleSubmit}
-            className="space-y-5 rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-lg sm:p-8"
+            className="glass-panel space-y-5 bg-white/90 p-6 shadow-[0_22px_45px_rgba(239,95,103,0.12)] backdrop-blur-xl sm:p-8"
           >
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-white/70">
+              <p className="text-xs uppercase tracking-[0.24em] text-[#e6535c]">
                 {editingId ? "Edit address" : "Add address"}
               </p>
-              <h2 className="mt-2 text-xl font-semibold text-white sm:text-2xl">Delivery details</h2>
-              <p className="mt-1 text-sm text-white/75">These details can be used during checkout.</p>
+              <h2 className="mt-2 text-xl font-semibold text-slate-800 sm:text-2xl">Delivery details</h2>
+              <p className="mt-1 text-sm text-slate-500">These details can be used during checkout.</p>
             </div>
 
             {formError ? (
-              <div className="rounded-3xl border border-red-300/40 bg-red-500/15 px-4 py-3 text-sm text-white backdrop-blur-lg">
+              <div className="rounded-2xl border border-[#ffd2d7] bg-[#fff1f1] px-4 py-3 text-sm text-[#d94753]">
                 {formError}
               </div>
             ) : null}
@@ -316,11 +316,11 @@ function Addresses() {
                   disabled={saving}
                 />
               </label>
-              <label className="sm:col-span-2 flex items-center justify-between rounded-2xl border border-white/20 bg-white/5 px-4 py-3">
-                <span className="text-sm font-medium text-white/85">Set as default</span>
+              <label className="sm:col-span-2 flex items-center justify-between rounded-2xl border border-[#ffd8dc] bg-[#fff8f8] px-4 py-3 cursor-pointer">
+                <span className="text-sm font-medium text-slate-700">Set as default</span>
                 <input
                   type="checkbox"
-                  className="h-5 w-5 accent-[#ef6a6c]"
+                  className="h-5 w-5 accent-[#ef6a6c] cursor-pointer"
                   checked={form.is_default}
                   onChange={(e) => setForm((p) => ({ ...p, is_default: e.target.checked }))}
                   disabled={saving}

@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const baseURL = (import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api").replace(
-  /\/+$/,
-  "",
-);
+// Default to /api so Vite dev proxy forwards to Django (see vite.config.js).
+const baseURL = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/+$/, "");
 
 const api = axios.create({
   baseURL,
