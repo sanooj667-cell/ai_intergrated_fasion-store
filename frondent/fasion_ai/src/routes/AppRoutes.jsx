@@ -19,6 +19,7 @@ import ProductDetailPage from "../pages/ProductDetailPage";
 import Register from "../pages/Register";
 import ShopPage from "../pages/ShopPage";
 import AdminDashboard from "../pages/AdminDashboard";
+import TryOn from "../pages/TryOn";
 
 function PageTransition({ children }) {
   return (
@@ -149,6 +150,16 @@ function AppRoutes() {
               <PageTransition>
                 <ProtectedRoute>
                   <Orders />
+                </ProtectedRoute>
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/tryon"
+            element={
+              <PageTransition>
+                <ProtectedRoute>
+                  <TryOn />
                 </ProtectedRoute>
               </PageTransition>
             }

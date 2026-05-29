@@ -9,9 +9,9 @@ import ProductSection from "../components/ProductSection";
 const heroSlides = [
   {
     id: "girls",
-    title: "Stylish Female Clothes",
-    subtitle: "Made from soft, durable fabric with trend-first cuts for modern street and daily wear.",
-    offerText: "Exclusive Offer 20% Off This Week",
+    title: "Premium Unisex Fashion",
+    subtitle: "Made from soft, durable fabric with trend-first cuts for modern street and daily wear for everyone.",
+    offerText: "Exclusive Unisex Offer 20% Off This Week",
     gradient: "linear-gradient(180deg, #f07a78 0%, #ff4b5d 100%)",
     gradientStops: [
       { offset: "0%", color: "#f07a78" },
@@ -22,38 +22,6 @@ const heroSlides = [
     img: "/hero-model2.png",
     avatarBorder: "border-[#ff4b5d]",
     theme: "girls"
-  },
-  {
-    id: "mens",
-    title: "Premium Men's Wear",
-    subtitle: "Elevate your style with our exclusive collection of sophisticated menswear.",
-    offerText: "New Arrivals for Men",
-    gradient: "linear-gradient(180deg, #434343 0%, #000000 100%)",
-    gradientStops: [
-      { offset: "0%", color: "#434343" },
-      { offset: "100%", color: "#000000" },
-    ],
-    btnColor: "bg-[#555] hover:bg-[#333] shadow-black/30",
-    textBtnColor: "text-[#333]",
-    img: "/MEN_HERO.PNG",
-    avatarBorder: "border-[#444]",
-    theme: "mens"
-  },
-  {
-    id: "kids",
-    title: "Playful Kids Fashion",
-    subtitle: "Comfortable and vibrant clothing for the little trendsetters.",
-    offerText: "Fun & Fresh Styles",
-    gradient: "linear-gradient(180deg, #f2d47a 0%, #d4ac0d 100%)",
-    gradientStops: [
-      { offset: "0%", color: "#f2d47a" },
-      { offset: "100%", color: "#d4ac0d" },
-    ],
-    btnColor: "bg-[#d4ac0d] hover:bg-[#b9770e] shadow-yellow-600/30",
-    textBtnColor: "text-[#b9770e]",
-    img: "https://images.unsplash.com/photo-1622290319146-7b63df48a635?auto=format&fit=crop&w=800&q=80",
-    avatarBorder: "border-[#d4ac0d]",
-    theme: "kids"
   }
 ];
 
@@ -139,10 +107,35 @@ function CategoryIcon({ kind }) {
   );
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 90,
+      damping: 14,
+    },
+  },
+};
+
 function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    if (heroSlides.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
@@ -158,7 +151,19 @@ function HomePage() {
           className="relative flex min-h-[100dvh] flex-col overflow-visible rounded-none text-white transition-all duration-700 ease-in-out"
         >
           <div className="relative flex min-h-0 flex-1 flex-col" style={{ background: slide.gradient }}>
-          <Navbar inHero theme={slide.theme} />
+            {/* Background elements wrapper - has overflow-hidden but doesn't wrap Navbar */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+              {/* Background Circle Wrapper with fixed top spacing to guarantee gap below Navbar and avoid inline style overrides */}
+              <div className="absolute right-0 top-[130px] translate-x-[40%]">
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="rounded-full bg-white/20 h-[450px] w-[450px] sm:h-[600px] sm:w-[600px] lg:h-[850px] lg:w-[850px]" 
+                />
+              </div>
+            </div>
+            <Navbar inHero theme={slide.theme} />
 
           <div className="relative flex min-h-0 flex-1 overflow-hidden">
             <AnimatePresence mode="wait">
@@ -170,26 +175,41 @@ function HomePage() {
                 transition={{ duration: 0.5 }}
                 className="grid w-full grid-cols-1 gap-8 lg:grid-cols-2"
               >
-                {/* Left Content Area */}
-                <div className="flex h-full flex-col justify-center space-y-5 px-8 py-10 sm:px-12 lg:px-16 lg:py-0 xl:px-20">
-                  <p className="text-sm font-medium text-white/90">{slide.offerText}</p>
-                  <h1 className="max-w-md text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.5rem]">
+                {/* Left Content Area with staggered fade-in animations */}
+                <motion.div 
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="flex h-full flex-col justify-center space-y-5 px-8 py-10 sm:px-12 lg:px-16 lg:py-0 xl:px-20"
+                >
+                  <motion.p variants={itemVariants} className="text-sm font-medium text-white/90">{slide.offerText}</motion.p>
+                  <motion.h1 variants={itemVariants} className="max-w-md text-4xl font-bold leading-tight sm:text-5xl lg:text-[3.5rem]">
                     {slide.title}
-                  </h1>
-                  <p className="max-w-md text-white/90">
+                  </motion.h1>
+                  <motion.p variants={itemVariants} className="max-w-md text-white/90">
                     {slide.subtitle}
-                  </p>
+                  </motion.p>
 
-                  <div className="flex w-full max-w-md flex-wrap items-center gap-3.5">
-                    <button type="button" className={`rounded-full bg-white/95 px-7 py-3.5 text-sm font-semibold transition hover:bg-white ${slide.textBtnColor} shadow-md`}>
+                  <motion.div variants={itemVariants} className="flex w-full max-w-md flex-wrap items-center gap-3.5">
+                    <motion.button 
+                      whileHover={{ scale: 1.05, y: -2 }} 
+                      whileTap={{ scale: 0.95 }} 
+                      type="button" 
+                      className={`rounded-full bg-white/95 px-7 py-3.5 text-sm font-semibold transition hover:bg-white ${slide.textBtnColor} shadow-md`}
+                    >
                       Select Category
-                    </button>
-                    <button type="button" className={`rounded-full px-9 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-105 ${slide.btnColor}`}>
+                    </motion.button>
+                    <motion.button 
+                      whileHover={{ scale: 1.05, y: -2 }} 
+                      whileTap={{ scale: 0.95 }} 
+                      type="button" 
+                      className={`rounded-full px-9 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:brightness-105 ${slide.btnColor}`}
+                    >
                       Shop Now
-                    </button>
-                  </div>
+                    </motion.button>
+                  </motion.div>
 
-                  <div className="inline-flex items-center gap-3 rounded-2xl bg-white/20 p-3 shadow-inner backdrop-blur-sm">
+                  <motion.div variants={itemVariants} className="inline-flex items-center gap-3 rounded-2xl bg-white/20 p-3 shadow-inner backdrop-blur-sm w-fit">
                     <div className="flex -space-x-2">
                       <img
                         src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&q=80"
@@ -202,7 +222,7 @@ function HomePage() {
                         className={`h-10 w-10 rounded-full border-2 object-cover ${slide.avatarBorder}`}
                       />
                       <img
-                        src="https://images.unsplash.com/photo-1541534401786-2077eed87a72?auto=format&fit=crop&w=120&q=80"
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
                         alt="Customer 3"
                         className={`h-10 w-10 rounded-full border-2 object-cover ${slide.avatarBorder}`}
                       />
@@ -211,39 +231,55 @@ function HomePage() {
                       <p className="text-sm font-semibold text-white">Our Happy Customers</p>
                       <p className="text-xs text-white/90">★★★★★ 4.9 (455+ Reviews)</p>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="flex items-center gap-3 pt-2">
+                  <motion.div variants={itemVariants} className="flex items-center gap-3 pt-2">
                     <span className="text-sm text-white/90">Not Yet Member?</span>
-                    <button type="button" className="rounded-full border border-white/60 bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/25">
+                    <motion.button 
+                      whileHover={{ scale: 1.05 }} 
+                      whileTap={{ scale: 0.95 }} 
+                      type="button" 
+                      className="rounded-full border border-white/60 bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:bg-white/25"
+                    >
                       Sign Up Now
-                    </button>
-                  </div>
-                </div>
+                    </motion.button>
+                  </motion.div>
+                </motion.div>
 
-                {/* Right Image Area */}
+                {/* Right Image Area with hover float animation */}
                 <div className="relative flex min-h-[400px] items-end justify-center px-4 pt-10 sm:min-h-[480px] lg:min-h-full lg:px-0 lg:pt-0">
-                  <div className="absolute bottom-6 h-[380px] w-[380px] rounded-full bg-white/20 sm:bottom-8 sm:h-[460px] sm:w-[460px] lg:bottom-1/2 lg:translate-y-1/2 lg:h-[580px] lg:w-[580px]" />
-                  <img
+                  <motion.img
                     src={slide.img}
                     alt="Fashion hero"
-                    className="relative z-10 h-auto max-h-[520px] w-[94%] max-w-[540px] object-contain object-bottom drop-shadow-[0_24px_40px_rgba(0,0,0,0.3)] sm:max-h-[600px] sm:max-w-[620px] lg:absolute lg:bottom-0 lg:max-h-[92vh] lg:w-auto lg:max-w-[min(720px,52vw)]"
+                    initial={{ opacity: 0, y: 25 }}
+                    animate={{ 
+                      opacity: 1, 
+                      y: 0 
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      delay: 0.3,
+                      ease: "easeOut"
+                    }}
+                    className="relative z-10 h-auto max-h-[580px] w-[98%] max-w-[560px] object-contain object-bottom drop-shadow-[0_24px_40px_rgba(0,0,0,0.25)] sm:max-h-[680px] sm:max-w-[680px] lg:absolute lg:bottom-0 lg:max-h-[98vh] lg:w-auto lg:max-w-[min(820px,56vw)]"
                   />
                 </div>
               </motion.div>
             </AnimatePresence>
 
             {/* Slider Dots */}
-            <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2 z-20">
-              {heroSlides.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentSlide(idx)}
-                  className={`h-2.5 rounded-full transition-all duration-300 ${currentSlide === idx ? 'w-8 bg-white' : 'w-2.5 bg-white/50 hover:bg-white/80'}`}
-                  aria-label={`Go to slide ${idx + 1}`}
-                />
-              ))}
-            </div>
+            {heroSlides.length > 1 && (
+              <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2 z-20">
+                {heroSlides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentSlide(idx)}
+                    className={`h-2.5 rounded-full transition-all duration-300 ${currentSlide === idx ? 'w-8 bg-white' : 'w-2.5 bg-white/50 hover:bg-white/80'}`}
+                    aria-label={`Go to slide ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
           </div>
 

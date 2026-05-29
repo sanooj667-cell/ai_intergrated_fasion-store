@@ -101,7 +101,7 @@ function Checkout() {
         key: orderData.key_id,
         amount: orderData.amount,
         currency: orderData.currency,
-        name: "John Clothes",
+        name: "vexo",
         description: "Order Payment",
         order_id: orderData.id,
         handler: async function (response) {

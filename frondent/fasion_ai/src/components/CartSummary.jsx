@@ -9,23 +9,23 @@ function CartSummary({ subtotal = 0, itemCount = 0 }) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.25 }}
-      className="rounded-3xl border border-white/20 bg-white/10 p-6 backdrop-blur-lg"
+      className="glass-panel p-6"
     >
-      <p className="text-xs uppercase tracking-[0.24em] text-white/70">Order Summary</p>
-      <div className="mt-4 space-y-3 text-sm text-white/85">
+      <p className="text-xs uppercase tracking-[0.24em] text-[#e6535c] font-bold">Order Summary</p>
+      <div className="mt-4 space-y-3 text-sm text-slate-600 font-medium">
         <div className="flex items-center justify-between">
           <span>Items</span>
-          <span>{itemCount}</span>
+          <span className="font-semibold text-slate-800">{itemCount}</span>
         </div>
         <div className="flex items-center justify-between">
           <span>Subtotal</span>
-          <span>{formatCurrency(subtotal)}</span>
+          <span className="font-semibold text-slate-800">{formatCurrency(subtotal)}</span>
         </div>
       </div>
-      <div className="my-4 h-px bg-white/20" />
+      <div className="my-4 border-t border-slate-150" />
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-white">Total</span>
-        <span className="text-xl font-semibold text-white">{formatCurrency(subtotal)}</span>
+        <span className="text-sm font-bold text-slate-800">Total</span>
+        <span className="text-xl font-extrabold text-[#e6535c]">{formatCurrency(subtotal)}</span>
       </div>
       <Link
         to="/checkout"

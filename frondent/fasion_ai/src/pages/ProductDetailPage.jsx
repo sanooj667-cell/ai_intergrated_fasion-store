@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import ProductGrid from "../components/ProductGrid";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { useWishlist } from "../context/WishlistContext";
 import { formatCurrency } from "../utils/format";
 
 const FALLBACK_IMAGE =
@@ -47,6 +48,7 @@ function ProductDetailPage() {
   const location = useLocation();
   const { isAuthenticated, loading: authLoading } = useAuth();
   const { notifyProductAdded } = useCart();
+  const { isLiked, toggleWishlist } = useWishlist();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -161,6 +163,8 @@ function ProductDetailPage() {
     }
   };
 
+  const liked = isLiked(product?.id);
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 12 }}
@@ -172,9 +176,9 @@ function ProductDetailPage() {
         Back to Shop
       </Link>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <div className="glass-panel overflow-hidden">
-          <img src={image} alt={product.title} className="h-full w-full object-cover" />
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 max-w-5xl mx-auto">
+        <div className="glass-panel overflow-hidden h-[380px] sm:h-[480px] lg:h-full min-h-[380px] w-full bg-white flex items-center justify-center">
+          <img src={image} alt={product.title} className="h-full w-full object-contain p-4" />
         </div>
 
         <div className="glass-panel space-y-5 p-6">
@@ -191,6 +195,35 @@ function ProductDetailPage() {
             >
               {addLoading ? "Adding..." : authLoading ? "Checking..." : "Add to Cart"}
             </button>
+
+            <button
+              type="button"
+              onClick={() => navigate(`/tryon?product_id=${product.id}`)}
+              className="rounded-full bg-slate-800 hover:bg-slate-900 px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white shadow-lg transition flex items-center gap-1.5"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-4 w-4 animate-pulse">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 21L8.188 15.904L3 15L8.188 14.096L9 9L9.813 14.096L15 15L9.813 15.904Z" />
+              </svg>
+              AI Try-On
+            </button>
+
+            <button
+              type="button"
+              onClick={() => toggleWishlist(product)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#fff1f2] border border-[#ffe4e6] text-[#ef5f67] shadow-md transition-all hover:scale-105 active:scale-95"
+              aria-label={liked ? "Remove from favorites" : "Add to favorites"}
+            >
+              <svg 
+                viewBox="0 0 24 24" 
+                fill={liked ? "#ef5f67" : "none"} 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                className="h-5 w-5 transition duration-300"
+              >
+                <path d="M12 20s-6.6-3.9-9-8.1A5.5 5.5 0 1 1 12 6a5.5 5.5 0 1 1 9 5.9C18.6 16.1 12 20 12 20Z" />
+              </svg>
+            </button>
+
             {!isAuthenticated && !authLoading ? (
               <Link to="/login" className="btn-ghost inline-flex rounded-lg px-4 py-2 text-sm">
                 Login
@@ -238,6 +271,19 @@ function ProductDetailPage() {
                   <span className="text-xs text-slate-400">Not specified</span>
                 )}
               </div>
+            </div>
+          </div>
+          
+          {/* AI Stylist Recommendation Note */}
+          <div className="rounded-2xl bg-[#fff0f1]/70 border border-[#ffd5d9] p-4 text-sm text-slate-700 flex gap-3.5 mt-6 shadow-sm">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#ef5f67]/15 text-[#e6535c] text-sm">
+              💡
+            </span>
+            <div className="space-y-1">
+              <p className="font-bold text-[#e6535c] text-xs uppercase tracking-wider">AI Stylist Note</p>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                This {product.category?.name || "item"} is crafted for maximum versatility. We recommend pairing it with sleek sneakers and a layering denim jacket for an elevated, trend-first daily street style.
+              </p>
             </div>
           </div>
         </div>

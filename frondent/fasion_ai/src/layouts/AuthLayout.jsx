@@ -13,11 +13,10 @@ function AuthLayout() {
         transition={{ duration: 0.28 }}
         className="mx-auto flex w-full max-w-7xl items-center justify-between rounded-[1.4rem] bg-[#ef6a6c] px-4 py-3 text-white shadow-[0_12px_28px_rgba(231,75,88,0.24)] sm:px-6"
       >
-        <Link to="/" className="inline-flex items-center gap-3">
-          <span className="rounded-full bg-white/20 px-2.5 py-1 text-xs font-bold uppercase tracking-[0.2em]">
-            JC
+        <Link to="/" className="inline-flex items-center">
+          <span className="text-xl font-black tracking-widest text-white font-sans italic lowercase">
+            vexo
           </span>
-          <span className="text-sm font-semibold tracking-wide sm:text-base">John Clothes</span>
         </Link>
         <Link
           to="/"

@@ -160,14 +160,12 @@ function Footer() {
           {/* Logo & Brand Details Column */}
           <div className="lg:col-span-2 space-y-6">
             <Link to="/" className="inline-block">
-              <img 
-                src="/logo.png" 
-                alt="LotteMart Logo" 
-                className="h-12 w-auto object-contain drop-shadow-sm hover:scale-105 transition-all duration-300" 
-              />
+              <span className="text-2xl font-black tracking-widest text-[#ef5f67] drop-shadow-sm font-sans italic lowercase block hover:scale-105 transition-all duration-300">
+                vexo
+              </span>
             </Link>
             <p className="text-sm text-slate-500 leading-relaxed pr-6">
-              LotteMart is an AI-integrated fashion powerhouse delivering responsive streetwear designs, premium wardrobe selection, and tailored style recomendations for the modern dresser.
+              Vexo is an AI-integrated fashion powerhouse delivering responsive streetwear designs, premium wardrobe selection, and tailored style recomendations for the modern dresser.
             </p>
             
             {/* Contact Details */}
@@ -178,7 +176,7 @@ function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <MailIcon className="h-4 w-4 text-[#ef5f67]" />
-                <a href="mailto:support@lottemart.com" className="hover:text-[#ef5f67] transition-all">support@lottemart.com</a>
+                <a href="mailto:support@vexo.com" className="hover:text-[#ef5f67] transition-all">support@vexo.com</a>
               </div>
               <div className="flex items-center gap-3">
                 <MapPinIcon className="h-4 w-4 text-[#ef5f67]" />
@@ -264,7 +262,7 @@ function Footer() {
         {/* Footer Bottom Bar */}
         <div className="border-t border-[#ffd8dc]/60 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-400 font-medium">
           <p className="order-2 md:order-1 text-center md:text-left">
-            &copy; {new Date().getFullYear()} LotteMart. All rights reserved.
+            &copy; {new Date().getFullYear()} Vexo. All rights reserved.
           </p>
           
           <p className="order-3 md:order-2 text-center text-[11px] tracking-wide text-slate-400">

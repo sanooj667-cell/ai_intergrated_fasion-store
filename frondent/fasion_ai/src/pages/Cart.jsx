@@ -76,12 +76,12 @@ function Cart() {
       {loading ? <Loader label="Loading your cart..." /> : null}
 
       {!loading && error ? (
-        <div className="rounded-3xl border border-white/20 bg-white/10 p-8 text-center text-white backdrop-blur-lg">
-          <p className="text-lg font-semibold">{error}</p>
+        <div className="glass-panel p-8 text-center">
+          <p className="text-lg font-semibold text-[#e6535c]">{error}</p>
           <button
             type="button"
             onClick={fetchCart}
-            className="mt-4 rounded-full bg-white px-5 py-2 text-xs font-semibold uppercase tracking-wide text-[#e6535c] transition hover:bg-[#fff1f1]"
+            className="mt-4 rounded-full bg-[#ef5f67] hover:bg-[#e74b58] px-5 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow-md active:scale-95 transition-all"
           >
             Retry
           </button>
@@ -105,7 +105,10 @@ function Cart() {
                 />
               ))}
             </AnimatePresence>
-            <Link to="/shop" className="inline-flex rounded-full border border-white/25 bg-white/10 px-5 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-white/20">
+            <Link 
+              to="/shop" 
+              className="inline-flex rounded-full border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold uppercase tracking-wide text-slate-700 transition hover:bg-slate-50 shadow-sm"
+            >
               Continue Shopping
             </Link>
           </div>
